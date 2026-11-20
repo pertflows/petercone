@@ -27,7 +27,7 @@ export function Hero({ s, guestName }: { s: WeddingSettings; guestName?: string 
 
       <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col items-center px-6 pb-24 pt-14 text-center sm:pt-20">
         <Reveal gate y={10}>
-          <p className="eyebrow text-parchment/75">{guestName ? <>Dear {guestName}</> : "Together with their families"}</p>
+          <p className="eyebrow text-parchment/75">{guestName ? <>Dear {guestName}</> : s.copy.heroEyebrow}</p>
         </Reveal>
 
         {/* names + portrait */}
@@ -67,7 +67,7 @@ export function Hero({ s, guestName }: { s: WeddingSettings; guestName?: string 
         </div>
 
         <Reveal gate delay={0.6} className="relative z-20 -mt-2 md:-mt-10">
-          <p className="script text-[clamp(2.6rem,11vw,5rem)] text-violet [text-shadow:0_2px_18px_rgb(30_10_20/0.45)]">are getting married!</p>
+          <p className="script text-[clamp(2.6rem,11vw,5rem)] text-violet [text-shadow:0_2px_18px_rgb(30_10_20/0.45)]">{s.copy.heroTagline}</p>
         </Reveal>
 
         <Reveal gate delay={0.75} className="mt-6 flex flex-col items-center gap-3">
@@ -75,7 +75,7 @@ export function Hero({ s, guestName }: { s: WeddingSettings; guestName?: string 
           <div className="flex items-center gap-4 text-parchment">
             <span className="h-px w-10 bg-gold/70" />
             <time dateTime={s.date} className="font-display text-xl italic sm:text-2xl">
-              Friday, August 27, 2027
+              {s.copy.heroDate}
             </time>
             <span className="h-px w-10 bg-gold/70" />
           </div>
@@ -86,8 +86,8 @@ export function Hero({ s, guestName }: { s: WeddingSettings; guestName?: string 
           <a href="#rsvp" className="group relative inline-flex min-h-12 items-center gap-3 border border-gold/70 bg-olive-ink/40 py-2 pl-2 pr-6 text-parchment outline-offset-4 transition-colors duration-500 hover:bg-parchment hover:text-olive-deep">
             <WaxSeal className="h-11 w-11 transition-transform duration-700 group-hover:rotate-[20deg]" />
             <span className="flex flex-col items-start leading-tight">
-              <span className="eyebrow text-[0.65rem]">Kindly reply</span>
-              <span className="font-display text-base italic">Respond to our invitation</span>
+              <span className="eyebrow text-[0.65rem]">{s.copy.heroCtaLabel}</span>
+              <span className="font-display text-base italic">{s.copy.heroCtaSub}</span>
             </span>
           </a>
         </Reveal>

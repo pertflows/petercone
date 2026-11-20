@@ -7,7 +7,7 @@ function parts(ms: number) {
   return { days: Math.floor(s / 86400), hours: Math.floor((s % 86400) / 3600), minutes: Math.floor((s % 3600) / 60) };
 }
 
-export function Countdown({ target }: { target: string }) {
+export function Countdown({ target, caption }: { target: string; caption: string }) {
   const [now, setNow] = useState<number | null>(null);
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- start the clock only on the client to avoid hydration mismatch
@@ -37,7 +37,7 @@ export function Countdown({ target }: { target: string }) {
           ))}
         </div>
       )}
-      <p className="mt-3 font-display text-sm italic text-bistre">until we say “I do”</p>
+      <p className="mt-3 font-display text-sm italic text-bistre">{caption}</p>
     </div>
   );
 }

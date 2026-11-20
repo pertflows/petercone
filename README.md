@@ -19,7 +19,7 @@ Visitors see the envelope once per browser session. Add `?skip-intro` to any URL
 
 Everything guests see comes from **`lib/wedding.config.ts`**. Any value set to `null` is an unconfirmed placeholder. The site shows "Details to follow" there and never makes anything up.
 
-You can also change most details **without a redeploy** under **/admin → Settings**. Saved settings override the config file.
+You can also change things **without a redeploy**: **/admin → Details** covers venues, times, dress code, the deadline and meals, and **/admin → Words** covers every line of wording (your names, the letter, headings, the order of the day, FAQs and the thank-you messages). Saved changes override the config file, and each field has a “Restore original”.
 
 Still to confirm: venue names and addresses, ceremony and reception times, the timezone, dress code, directions, the RSVP deadline, meal options, timeline times, and the FAQ answers (accommodations, transportation, parking, children, registry).
 

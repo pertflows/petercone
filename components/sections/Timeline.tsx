@@ -18,10 +18,10 @@ export function Timeline({ s }: { s: WeddingSettings }) {
             Wedding Day
           </p>
           <h2 id="program-title" className="script -mt-[0.55em] text-[clamp(3rem,12vw,6rem)] text-violet">
-            The Order of the Day
+            {s.copy.programTitle}
           </h2>
           <Fleuron className="mx-auto mt-4 w-44 text-gold-light" />
-          <p className="mx-auto mt-4 max-w-md text-lg italic text-parchment/75">An evening in five small acts.</p>
+          <p className="mx-auto mt-4 max-w-md text-lg italic text-parchment/75">{s.copy.programSubtitle}</p>
         </Reveal>
 
         <ol className="relative mx-auto mt-16 max-w-3xl">

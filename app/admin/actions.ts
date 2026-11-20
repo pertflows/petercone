@@ -6,8 +6,9 @@ import { z } from "zod";
 import { requireAdmin, signInAdmin, signOutAdmin } from "@/lib/auth";
 import { repo } from "@/lib/db";
 import type { HouseholdInput, RsvpSubmission } from "@/lib/db/types";
-import { getSettings } from "@/lib/settings";
-import { defaultSettings } from "@/lib/wedding.config";
+import { deepMerge, getSettings } from "@/lib/settings";
+import { defaultSettings, type WeddingSettings } from "@/lib/wedding.config";
+import { paragraphs, wordsSchema } from "@/lib/admin/words-form";
 import { parseGuestImport, type ImportResult } from "@/lib/admin/import";
 import { placeholderFields, pruneDefaults, settingsFromForm, settingsSchema, toOverrides } from "@/lib/admin/settings-form";
 
@@ -285,12 +286,11 @@ export interface SettingsState extends ActionState {
 export async function saveSettingsAction(_prev: SettingsState, fd: FormData): Promise<SettingsState> {
   await requireAdmin();
   const current = await getSettings();
-  const parsed = settingsSchema.safeParse(settingsFromForm(fd, current));
+  const parsed = settingsSchema.safeParse(settingsFromForm(fd));
   if (!parsed.success) return { error: "Please check the highlighted fields.", fieldErrors: fieldErrors(parsed.error) };
 
-  const overrides = pruneDefaults(toOverrides(parsed.data, current), defaultSettings);
   try {
-    await repo.saveSettingsOverrides(overrides);
+    await saveMerged(current, toOverrides(parsed.data));
   } catch (e) {
     console.error("[admin] save settings", e);
     return { error: "Something went wrong saving settings. Please try again." };
@@ -298,4 +298,57 @@ export async function saveSettingsAction(_prev: SettingsState, fd: FormData): Pr
   revalidatePath("/");
   refreshAll();
   return { ok: true, message: "Settings saved — the website is updated.", placeholders: placeholderFields(await getSettings()) };
+}
+
+/**
+ * Apply a patch on top of everything already saved, then store only what
+ * differs from lib/wedding.config.ts — so the Settings and Words pages never
+ * overwrite each other’s changes.
+ */
+async function saveMerged(current: WeddingSettings, patch: Partial<WeddingSettings>) {
+  const next = deepMerge(current, patch);
+  await repo.saveSettingsOverrides(pruneDefaults(next as unknown as Record<string, unknown>, defaultSettings));
+}
+
+/* ── Words (all site wording) ─────────────────────────────────────────────── */
+
+export async function saveWordsAction(_prev: ActionState, fd: FormData): Promise<ActionState> {
+  await requireAdmin();
+  let raw: unknown;
+  try {
+    raw = JSON.parse(str(fd, "payload"));
+  } catch {
+    return { error: "Something went wrong reading the form. Please try again." };
+  }
+  const parsed = wordsSchema.safeParse(raw);
+  if (!parsed.success) {
+    const fe = fieldErrors(parsed.error);
+    return { error: Object.values(fe)[0] ?? "Please check the highlighted fields.", fieldErrors: fe };
+  }
+  const v = parsed.data;
+  const body = paragraphs(v.letter.body);
+  if (!body.length) return { error: "The letter can’t be empty.", fieldErrors: { "letter.body": "The letter can’t be empty." } };
+
+  const current = await getSettings();
+  const keys = new Set<string>();
+  const faqs = v.faqs.map((f) => {
+    let key = f.key;
+    while (keys.has(key)) key = `${key}-x`;
+    keys.add(key);
+    return { ...f, key };
+  });
+  try {
+    await saveMerged(current, {
+      couple: { ...current.couple, ...v.couple },
+      letter: [v.letter.salutation, ...body, v.letter.closing ?? ""],
+      copy: { ...current.copy, ...v.copy },
+      timeline: v.timeline,
+      faqs,
+    });
+  } catch (e) {
+    console.error("[admin] save words", e);
+    return { error: "Something went wrong saving. Please try again." };
+  }
+  refreshAll();
+  return { ok: true, message: "Saved — the website is updated." };
 }

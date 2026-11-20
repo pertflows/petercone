@@ -20,10 +20,10 @@ export function Faq({ s }: { s: WeddingSettings }) {
       <div className="mx-auto max-w-5xl">
         <Reveal className="grid items-end gap-6 md:grid-cols-[1fr_1.4fr]">
           <div>
-            <p className="eyebrow text-bistre">Good to know</p>
+            <p className="eyebrow text-bistre">{s.copy.faqEyebrow}</p>
             <h2 id="faq-title" className="display mt-3 text-[clamp(2.8rem,11vw,5.6rem)] uppercase text-olive">
-              Questions
-              <span className="mt-1 block text-[0.5em] normal-case italic text-roses">&amp; answers</span>
+              {s.copy.faqTitle}
+              <span className="mt-1 block text-[0.5em] normal-case italic text-roses">{s.copy.faqScript}</span>
             </h2>
           </div>
           <div className="relative hidden md:block">
@@ -37,7 +37,7 @@ export function Faq({ s }: { s: WeddingSettings }) {
           {items.map((f, i) => (
             <Reveal key={f.key} delay={(i % 2) * 0.08} className="mb-10 break-inside-avoid">
               <dt className="flex items-baseline gap-4">
-                <span className="font-display text-sm italic text-gold-deep">{ROMAN[i]}.</span>
+                <span className="font-display text-sm italic text-gold-deep">{ROMAN[i] ?? i + 1}.</span>
                 <span className="font-display text-[1.55rem] italic leading-snug text-espresso">{f.question}</span>
               </dt>
               <dd className="mt-2 border-l border-gold/50 pl-5 text-[1.12rem] leading-relaxed text-espresso-soft sm:ml-7">

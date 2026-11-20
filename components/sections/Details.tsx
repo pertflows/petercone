@@ -44,9 +44,9 @@ export function Details({ s, siteUrl }: { s: WeddingSettings; siteUrl: string })
         <div className="stripes-olive p-3 shadow-[0_30px_60px_-30px_rgb(60_50_20/0.6)] sm:p-5">
           <div className="paper border border-olive/40 px-5 py-12 outline outline-1 outline-offset-[-8px] outline-gold/50 sm:px-12 sm:py-16">
             <div className="text-center">
-              <p className="eyebrow text-bistre">You are invited</p>
+              <p className="eyebrow text-bistre">{s.copy.detailsEyebrow}</p>
               <h2 id="details-title" className="display mt-4 text-[clamp(2.8rem,11vw,5.4rem)] uppercase tracking-[0.02em] text-olive">
-                The Details
+                {s.copy.detailsTitle}
               </h2>
               <Fleuron className="mx-auto mt-5 w-48 text-gold" />
             </div>
@@ -77,7 +77,7 @@ export function Details({ s, siteUrl }: { s: WeddingSettings; siteUrl: string })
             </div>
 
             <div className="mt-14 flex flex-col items-center gap-8 border-t border-gold/40 pt-12">
-              <Countdown target={target} />
+              <Countdown target={target} caption={s.copy.countdownCaption} />
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <span className="eyebrow w-full text-center text-[0.62rem] text-bistre sm:w-auto">Save the date</span>
                 <a href="/calendar.ics" className="inline-flex min-h-11 items-center border border-olive px-4 font-display text-base italic text-olive transition-colors hover:bg-olive hover:text-parchment">

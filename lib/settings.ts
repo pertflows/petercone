@@ -5,7 +5,7 @@ import { repo } from "./db";
 type Plain = Record<string, unknown>;
 const isObj = (v: unknown): v is Plain => typeof v === "object" && v !== null && !Array.isArray(v);
 
-function deepMerge<T>(base: T, over: unknown): T {
+export function deepMerge<T>(base: T, over: unknown): T {
   if (!isObj(base) || !isObj(over)) return (over === undefined ? base : (over as T));
   const out: Plain = { ...base };
   for (const [k, v] of Object.entries(over)) {

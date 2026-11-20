@@ -26,14 +26,14 @@ export async function Site({ s, invitation }: { s: WeddingSettings; invitation: 
   return (
     <>
       <script dangerouslySetInnerHTML={{ __html: INTRO_BOOT_SCRIPT }} />
-      <EnvelopeIntro addressee={invitation?.name ?? null} houseName={s.couple.futureHouseName} couple={s.couple.primary} />
+      <EnvelopeIntro addressee={invitation?.name ?? null} houseName={s.couple.futureHouseName} couple={s.couple.primary} copy={{ eyebrow: s.copy.envelopeEyebrow, greeting: s.copy.envelopeGreeting, prompt: s.copy.envelopePrompt }} />
       <FloatingNav />
       <main>
         <Hero s={s} guestName={greeting} />
         <Letter s={s} />
         <Details s={s} siteUrl={siteUrl} />
         <Timeline s={s} />
-        <Gallery photos={photos.gallery} />
+        <Gallery photos={photos.gallery} copy={{ eyebrow: s.copy.galleryEyebrow, title: s.copy.galleryTitle, script: s.copy.galleryScript, caption1: s.copy.galleryCaption1, caption2: s.copy.galleryCaption2 }} />
         <Rsvp
           initial={invitation}
           meals={s.rsvp.meals}
@@ -44,6 +44,7 @@ export async function Site({ s, invitation }: { s: WeddingSettings; invitation: 
           enabled={storageAvailable}
           houseName={s.couple.futureHouseName}
           couple={s.couple.primary}
+          copy={{ eyebrow: s.copy.rsvpEyebrow, title: s.copy.rsvpTitle, thanksTitle: s.copy.thanksTitle, thanksBody: s.copy.thanksBody, declineTitle: s.copy.declineTitle, declineBody: s.copy.declineBody, signoff: s.copy.signoff }}
         />
         <Faq s={s} />
       </main>

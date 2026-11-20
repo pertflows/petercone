@@ -14,7 +14,7 @@ const PAPER = [0.22, 0.61, 0.36, 1] as const;
 const ENVELOPE = "#ecd2c8";
 const ENVELOPE_SHADE = "#dcb9ad";
 
-export function EnvelopeIntro({ addressee, houseName, couple }: { addressee: string | null; houseName: string; couple: string }) {
+export function EnvelopeIntro({ addressee, houseName, couple, copy }: { addressee: string | null; houseName: string; couple: string; copy: { eyebrow: string; greeting: string; prompt: string } }) {
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const reduce = useReducedMotion();
   const done = useIntroDone();
@@ -84,8 +84,8 @@ export function EnvelopeIntro({ addressee, houseName, couple }: { addressee: str
       </div>
 
       <div className="chrome relative z-10 mb-10 text-center text-parchment sm:mb-14">
-        <p className="eyebrow text-[0.65rem] text-parchment/60">{addressee ? "Specially for" : "You are cordially invited"}</p>
-        <p className="mt-3 font-display text-[clamp(1.5rem,6vw,2.2rem)] italic leading-tight text-ivory">{addressee ?? "To our dearest family & friends"}</p>
+        <p className="eyebrow text-[0.65rem] text-parchment/60">{addressee ? "Specially for" : copy.eyebrow}</p>
+        <p className="mt-3 font-display text-[clamp(1.5rem,6vw,2.2rem)] italic leading-tight text-ivory">{addressee ?? copy.greeting}</p>
       </div>
 
       {/* ── the envelope ───────────────────────────────────────────── */}
@@ -146,7 +146,7 @@ export function EnvelopeIntro({ addressee, houseName, couple }: { addressee: str
       <div className="chrome relative z-10 mt-12 flex flex-col items-center gap-2 text-parchment">
         <button type="button" onClick={open} disabled={phase !== "idle"} className="group flex min-h-12 items-center gap-3 px-4 font-display text-xl italic text-ivory">
           <span className="h-px w-8 bg-gold transition-all duration-500 group-hover:w-12" />
-          Kindly open
+          {copy.prompt}
           <span className="h-px w-8 bg-gold transition-all duration-500 group-hover:w-12" />
         </button>
         <p className="eyebrow text-[0.58rem] text-parchment/50">Tap the seal</p>

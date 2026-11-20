@@ -97,7 +97,76 @@ export interface WeddingSettings {
   letter: string[];
 
   faqs: FaqItem[];
+
+  /** Every other line of wording on the site — editable in /admin → Words. */
+  copy: SiteCopy;
 }
+
+export interface SiteCopy {
+  envelopeEyebrow: string;
+  envelopeGreeting: string;
+  envelopePrompt: string;
+  heroEyebrow: string;
+  heroTagline: string;
+  heroDate: string;
+  heroCtaLabel: string;
+  heroCtaSub: string;
+  detailsEyebrow: string;
+  detailsTitle: string;
+  countdownCaption: string;
+  programTitle: string;
+  programSubtitle: string;
+  galleryEyebrow: string;
+  galleryTitle: string;
+  galleryScript: string;
+  galleryCaption1: string;
+  galleryCaption2: string;
+  rsvpEyebrow: string;
+  rsvpTitle: string;
+  thanksTitle: string;
+  thanksBody: string;
+  declineTitle: string;
+  declineBody: string;
+  signoff: string;
+  faqEyebrow: string;
+  faqTitle: string;
+  faqScript: string;
+  footerScript: string;
+  footerLine: string;
+}
+
+export const defaultCopy: SiteCopy = {
+  envelopeEyebrow: "You are cordially invited",
+  envelopeGreeting: "To our dearest family & friends",
+  envelopePrompt: "Kindly open",
+  heroEyebrow: "Together with their families",
+  heroTagline: "are getting married!",
+  heroDate: "Friday, August 27, 2027",
+  heroCtaLabel: "Kindly reply",
+  heroCtaSub: "Respond to our invitation",
+  detailsEyebrow: "You are invited",
+  detailsTitle: "The Details",
+  countdownCaption: "until we say “I do”",
+  programTitle: "The Order of the Day",
+  programSubtitle: "An evening in five small acts.",
+  galleryEyebrow: "A few favourites",
+  galleryTitle: "Moments",
+  galleryScript: "ti amo",
+  galleryCaption1: "Positano",
+  galleryCaption2: "Amalfi",
+  rsvpEyebrow: "Répondez s’il vous plaît",
+  rsvpTitle: "Kindly Reply",
+  thanksTitle: "Grazie mille",
+  thanksBody: "Your reply is safely in our hands. We cannot wait to celebrate with you on Friday, the twenty-seventh of August.",
+  declineTitle: "You’ll be missed",
+  declineBody: "Thank you for letting us know. We’ll raise a glass to you on the day, and hope to celebrate together soon.",
+  signoff: "with love,",
+  faqEyebrow: "Good to know",
+  faqTitle: "Questions",
+  faqScript: "& answers",
+  footerScript: "Ci vediamo presto",
+  footerLine: "See you soon — with love,",
+};
 
 export const defaultSettings: WeddingSettings = {
   couple: {
@@ -166,6 +235,8 @@ export const defaultSettings: WeddingSettings = {
     { key: "registry", question: "Is there a registry?", answer: null },
     { key: "rsvp", question: "When should I reply by?", answer: null },
   ],
+
+  copy: defaultCopy,
 };
 
 /** Photographs of the couple (supplied by them — never generated). */

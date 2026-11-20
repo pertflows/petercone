@@ -40,7 +40,7 @@ export function Letter({ s }: { s: WeddingSettings }) {
                 </p>
               ))}
             </div>
-            <p className="mt-8 text-lg italic text-espresso-soft">{closing}</p>
+            {closing && <p className="mt-8 text-lg italic text-espresso-soft">{closing}</p>}
             <p className="mt-1 text-[clamp(3rem,12vw,4.4rem)] leading-none text-raspberry">
               <Handwritten className="script" duration={2.6} delay={0.2}>
                 {s.couple.primary}

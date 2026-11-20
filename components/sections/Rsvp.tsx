@@ -21,6 +21,17 @@ interface Props {
   enabled: boolean;
   houseName: string;
   couple: string;
+  copy: RsvpCopy;
+}
+
+export interface RsvpCopy {
+  eyebrow: string;
+  title: string;
+  thanksTitle: string;
+  thanksBody: string;
+  declineTitle: string;
+  declineBody: string;
+  signoff: string;
 }
 
 type GuestState = { id: string; attending: boolean | null; meal: string | null; dietary: string };
@@ -52,7 +63,7 @@ function Choice({ checked, onSelect, label, name, value }: { checked: boolean; o
   );
 }
 
-export function Rsvp({ initial, meals, askSongs, allowNameLookup, deadlineLabel, open, enabled, houseName, couple }: Props) {
+export function Rsvp({ initial, meals, askSongs, allowNameLookup, deadlineLabel, open, enabled, houseName, couple, copy }: Props) {
   const reduce = useReducedMotion();
   const uid = useId();
   const [stage, setStage] = useState<Stage>(initial ? (initial.reply ? "sent" : "card") : "find");
@@ -144,9 +155,9 @@ export function Rsvp({ initial, meals, askSongs, allowNameLookup, deadlineLabel,
       <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(120% 70% at 50% 40%, transparent 30%, rgb(25 4 12 / 0.65))" }} />
 
       <Reveal className="relative mx-auto max-w-xl text-center text-parchment">
-        <p className="eyebrow text-violet/90">Répondez s’il vous plaît</p>
+        <p className="eyebrow text-violet/90">{copy.eyebrow}</p>
         <h2 id="rsvp-title" className="script mt-3 text-[clamp(3.4rem,14vw,6rem)] leading-none text-ivory">
-          Kindly Reply
+          {copy.title}
         </h2>
         <p className="mt-4 text-lg italic text-parchment/80">
           {deadlineLabel ? <>The favour of your reply is requested by {deadlineLabel}.</> : <>The favour of your reply is requested at your earliest convenience.</>}
@@ -382,15 +393,13 @@ export function Rsvp({ initial, meals, askSongs, allowNameLookup, deadlineLabel,
                       <WaxSeal className="h-20 w-20" />
                     </motion.div>
                     <p className="eyebrow text-[0.62rem] text-bistre">{houseName}</p>
-                    <h3 className="script mt-4 text-[clamp(2.8rem,11vw,4.2rem)] leading-none text-raspberry">{declinedAll ? "You’ll be missed" : "Grazie mille"}</h3>
+                    <h3 className="script mt-4 text-[clamp(2.8rem,11vw,4.2rem)] leading-none text-raspberry">{declinedAll ? copy.declineTitle : copy.thanksTitle}</h3>
                     <p className="mt-4 font-display text-[1.5rem] italic text-olive">{joinNames(declinedAll ? everyoneNames : attendingNames)}</p>
                     <p className="mx-auto mt-5 max-w-md text-lg leading-relaxed text-espresso-soft">
-                      {declinedAll
-                        ? "Thank you for letting us know. We’ll raise a glass to you on the day, and hope to celebrate together soon."
-                        : "Your reply is safely in our hands. We cannot wait to celebrate with you on Friday, the twenty-seventh of August."}
+                      {declinedAll ? copy.declineBody : copy.thanksBody}
                     </p>
                     <Fleuron className="mx-auto mt-8 w-40 text-gold" />
-                    <p className="script mt-4 text-4xl text-espresso-soft">with love, {couple}</p>
+                    <p className="script mt-4 text-4xl text-espresso-soft">{copy.signoff} {couple}</p>
                     <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                       {!declinedAll && (
                         <a href="/calendar.ics" className="inline-flex min-h-11 items-center border border-olive px-4 font-display text-base italic text-olive hover:bg-olive hover:text-parchment">

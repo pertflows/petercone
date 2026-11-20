@@ -28,10 +28,10 @@ export function Footer({ s }: { s: WeddingSettings }) {
         </Reveal>
         <p className="mt-12 text-[clamp(2.6rem,10vw,4rem)] leading-none text-violet">
           <Handwritten className="script" duration={2.4}>
-            Ci vediamo presto
+            {s.copy.footerScript}
           </Handwritten>
         </p>
-        <p className="mt-3 font-display text-lg italic text-parchment/80">See you soon — with love, {s.couple.primary}</p>
+        <p className="mt-3 font-display text-lg italic text-parchment/80">{s.copy.footerLine} {s.couple.primary}</p>
         <a href="#rsvp" className="mt-10 inline-flex min-h-12 items-center border border-gold/70 px-6 font-display text-lg italic text-parchment transition-colors hover:bg-parchment hover:text-espresso">
           Kindly reply
         </a>

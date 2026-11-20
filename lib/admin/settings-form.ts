@@ -44,13 +44,11 @@ export const settingsSchema = z.object({
     .pipe(z.array(z.string().max(80, "Each meal must be under 80 characters.")).max(12, "Offer at most 12 meal choices.")),
   allowNameLookup: z.boolean(),
   askSongs: z.boolean(),
-  timeline: z.array(z.object({ time: text(40), note: text(200) })).max(20),
-  faqs: z.record(z.string(), text(2000)),
 });
 
 export type SettingsInput = z.infer<typeof settingsSchema>;
 
-export function settingsFromForm(fd: FormData, current: WeddingSettings) {
+export function settingsFromForm(fd: FormData) {
   const s = (k: string) => {
     const v = fd.get(k);
     return typeof v === "string" ? v : "";
@@ -72,13 +70,11 @@ export function settingsFromForm(fd: FormData, current: WeddingSettings) {
     meals: s("meals"),
     allowNameLookup: fd.get("allowNameLookup") === "on",
     askSongs: fd.get("askSongs") === "on",
-    timeline: current.timeline.map((_, i) => ({ time: s(`timeline.${i}.time`), note: s(`timeline.${i}.note`) })),
-    faqs: Object.fromEntries(current.faqs.map((f) => [f.key, s(`faq.${f.key}`)])),
   };
 }
 
 /** The overridable subset of WeddingSettings, built from validated input. */
-export function toOverrides(v: SettingsInput, current: WeddingSettings): Record<string, unknown> {
+export function toOverrides(v: SettingsInput): Partial<WeddingSettings> {
   return {
     timezone: v.timezone,
     ceremony: v.ceremony,
@@ -86,9 +82,7 @@ export function toOverrides(v: SettingsInput, current: WeddingSettings): Record<
     dressCode: v.dressCode,
     dressCodeNote: v.dressCodeNote,
     directions: v.directions,
-    timeline: current.timeline.map((e, i) => ({ ...e, time: v.timeline[i]?.time ?? null, note: v.timeline[i]?.note ?? null })),
     rsvp: { deadline: v.deadline, meals: v.meals, allowNameLookup: v.allowNameLookup, askSongs: v.askSongs },
-    faqs: current.faqs.map((f) => ({ ...f, answer: f.key in v.faqs ? v.faqs[f.key] : f.answer })),
   };
 }
 

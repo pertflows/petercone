@@ -130,32 +130,9 @@ export function SettingsForm({ settings: s, placeholders, zones }: { settings: W
         </Field>
       </section>
 
-      <section className="adm-panel flex flex-col gap-5">
-        <h2>Order of the day</h2>
-        <ol className="flex flex-col gap-4">
-          {s.timeline.map((e, i) => (
-            <li key={i} className="grid gap-3 border-b border-[var(--hair)] pb-4 last:border-0 last:pb-0 sm:grid-cols-[12rem_1fr]">
-              <p className="font-display text-lg text-olive-deep sm:col-span-2">
-                {e.title} <Tba show={!e.time} />
-              </p>
-              {text(`timeline.${i}.time`, "Time", e.time, { placeholder: "4:00 pm", max: 40 })}
-              {text(`timeline.${i}.note`, "Note (optional)", e.note, { max: 200 })}
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="adm-panel flex flex-col gap-5">
-        <h2>Questions &amp; answers</h2>
-        <p className="adm-help -mt-3">Leave an answer empty to show “details to follow”.</p>
-        <div className="flex flex-col gap-5">
-          {s.faqs.map((f) => (
-            <Field key={f.key} label={f.question} htmlFor={`faq.${f.key}`} error={fe[`faqs.${f.key}`]}>
-              <textarea id={`faq.${f.key}`} name={`faq.${f.key}`} defaultValue={f.answer ?? ""} rows={2} maxLength={2000} className="adm-textarea" />
-            </Field>
-          ))}
-        </div>
-      </section>
+      <p className="adm-muted">
+        The order of the day, the questions &amp; answers and all other wording live under <a href="/admin/words" className="underline">Words</a>.
+      </p>
 
       <div className="sticky bottom-0 -mx-4 flex flex-wrap items-center gap-3 border-t border-[var(--rule)] bg-ivory/95 px-4 py-3 md:mx-0 md:px-0">
         <SubmitButton busy={pending}>Save settings</SubmitButton>

@@ -11,12 +11,12 @@ import { Parallax, PhotoReveal, Reveal } from "@/components/motion";
 type Mount = "polaroid" | "corners" | "gilt" | "deckle";
 
 /** Art direction for each slot in the collage. */
-const SLOTS: { mount: Mount; rotate: number; desktop: string; mobile: string; caption?: string; from: "bottom" | "left" | "right"; speed: number }[] = [
+const SLOTS: { mount: Mount; rotate: number; desktop: string; mobile: string; caption?: 1 | 2; from: "bottom" | "left" | "right"; speed: number }[] = [
   { mount: "gilt", rotate: -1.5, desktop: "md:col-[1/8] md:row-[1/6]", mobile: "col-span-2", from: "left", speed: 0.04 },
   { mount: "corners", rotate: 2.5, desktop: "md:col-[8/13] md:row-[2/9]", mobile: "col-span-1", from: "right", speed: 0.1 },
-  { mount: "polaroid", rotate: -3, desktop: "md:col-[2/7] md:row-[6/13]", mobile: "col-span-1 mt-10", caption: "Positano", from: "bottom", speed: 0.14 },
+  { mount: "polaroid", rotate: -3, desktop: "md:col-[2/7] md:row-[6/13]", mobile: "col-span-1 mt-10", caption: 1, from: "bottom", speed: 0.14 },
   { mount: "deckle", rotate: 1.5, desktop: "md:col-[7/12] md:row-[9/15]", mobile: "col-span-1", from: "bottom", speed: 0.06 },
-  { mount: "polaroid", rotate: 2, desktop: "md:col-[1/6] md:row-[13/19]", mobile: "col-span-1 mt-8", caption: "Amalfi", from: "left", speed: 0.12 },
+  { mount: "polaroid", rotate: 2, desktop: "md:col-[1/6] md:row-[13/19]", mobile: "col-span-1 mt-8", caption: 2, from: "left", speed: 0.12 },
   { mount: "corners", rotate: -2, desktop: "md:col-[6/11] md:row-[15/20]", mobile: "col-span-2 mx-6", from: "right", speed: 0.08 },
 ];
 
@@ -67,7 +67,15 @@ function Framed({ p, mount, caption, onOpen, priority }: { p: Photo; mount: Moun
   }
 }
 
-export function Gallery({ photos }: { photos: Photo[] }) {
+export interface GalleryCopy {
+  eyebrow: string;
+  title: string;
+  script: string;
+  caption1: string;
+  caption2: string;
+}
+
+export function Gallery({ photos, copy }: { photos: Photo[]; copy: GalleryCopy }) {
   const [open, setOpen] = useState<number | null>(null);
   const reduce = useReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -104,10 +112,10 @@ export function Gallery({ photos }: { photos: Photo[] }) {
   return (
     <section id="gallery" aria-labelledby="gallery-title" className="paper relative overflow-hidden px-5 py-20 sm:px-8 md:py-28">
       <Reveal className="relative mx-auto max-w-5xl text-center md:text-left">
-        <p className="eyebrow text-bistre">A few favourites</p>
+        <p className="eyebrow text-bistre">{copy.eyebrow}</p>
         <h2 id="gallery-title" className="mt-2 flex flex-col items-center md:flex-row md:items-baseline md:gap-6">
-          <span className="display text-[clamp(3.2rem,13vw,7.5rem)] uppercase text-olive">Moments</span>
-          <span className="script mt-1 text-[clamp(2.4rem,9vw,4rem)] text-roses md:mt-0">ti amo</span>
+          <span className="display text-[clamp(3.2rem,13vw,7.5rem)] uppercase text-olive">{copy.title}</span>
+          <span className="script mt-1 text-[clamp(2.4rem,9vw,4rem)] text-roses md:mt-0">{copy.script}</span>
         </h2>
         <Fleuron className="mx-auto mt-4 w-40 text-gold md:mx-0" />
       </Reveal>
@@ -119,7 +127,7 @@ export function Gallery({ photos }: { photos: Photo[] }) {
             <Parallax key={p.src + i} speed={slot.speed} className={`relative ${slot.mobile} ${slot.desktop} md:col-span-auto self-start`} style={{ zIndex: i % 2 ? 2 : 1 }}>
               <div style={{ transform: `rotate(${slot.rotate}deg)` }}>
                 <PhotoReveal from={slot.from} delay={0.05}>
-                  <Framed p={p} mount={slot.mount} caption={slot.caption} onOpen={() => show(i)} />
+                  <Framed p={p} mount={slot.mount} caption={slot.caption === 1 ? copy.caption1 : slot.caption === 2 ? copy.caption2 : undefined} onOpen={() => show(i)} />
                 </PhotoReveal>
               </div>
             </Parallax>
