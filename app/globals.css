@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Emily & Joe — stationery design tokens
+   Palette: Cashmere · Secret Safari · Spanish Bistre · Violet Kiss · Chaotic Roses
+   grounded in olive, ivory, parchment, antique gold and espresso.
+   ────────────────────────────────────────────────────────────────────────── */
+@theme {
+  --color-cashmere: #d2b29a;
+  --color-safari: #c4b967;
+  --color-bistre: #847334;
+  --color-violet: #eea1d7;
+  --color-roses: #bb2968;
+
+  --color-ivory: #fbf6ec;
+  --color-parchment: #f4ead6;
+  --color-cream: #ede0c4;
+  --color-blush: #f1d5d6;
+  --color-blush-deep: #e6b9bd;
+  --color-gold: #b8975a;
+  --color-gold-light: #dcc28c;
+  --color-gold-deep: #7d6230;
+  --color-olive: #4a5226;
+  --color-olive-deep: #343a1a;
+  --color-olive-ink: #2a2f15;
+  --color-espresso: #2b1d15;
+  --color-espresso-soft: #4a3628;
+  --color-raspberry: #8f1d4c;
+  --color-ink: #3a2a1e;
+
+  --font-display: var(--font-bodoni), "Bodoni 72", "Didot", serif;
+  --font-script: var(--font-pinyon), "Snell Roundhand", cursive;
+  --font-serif: var(--font-cormorant), "Cormorant", Georgia, serif;
+  --font-sans: var(--font-cormorant), Georgia, serif;
+
+  --ease-paper: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-silk: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+    background: var(--color-espresso);
+  }
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-violet);
+    color: var(--color-espresso);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-roses);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* ── Paper & texture ─────────────────────────────────────────────────────── */
+@utility paper {
+  background-color: var(--color-ivory);
+  background-image: url("/textures/paper-grain.svg"), radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(150 110 60 / 0.10));
+  background-size: 320px 320px, 100% 100%;
+}
+@utility paper-parchment {
+  background-color: var(--color-parchment);
+  background-image: url("/textures/paper-grain.svg"), radial-gradient(130% 100% at 50% 30%, transparent 50%, rgb(140 100 50 / 0.16));
+  background-size: 320px 320px, 100% 100%;
+}
+@utility paper-blush {
+  background-color: var(--color-blush);
+  background-image: url("/textures/paper-grain.svg");
+  background-size: 320px 320px;
+}
+@utility grain {
+  background-image: url("/textures/paper-grain.svg");
+  background-size: 320px 320px;
+}
+@utility linen-olive {
+  background-color: var(--color-olive-deep);
+  background-image: url("/textures/paper-grain.svg"), radial-gradient(100% 80% at 50% 0%, rgb(120 130 70 / 0.35), transparent 70%);
+  background-size: 260px 260px, 100% 100%;
+  background-blend-mode: soft-light, normal;
+}
+
+/* Olive & cream awning stripes, as on printed inserts */
+@utility stripes-olive {
+  background-image: repeating-linear-gradient(90deg, var(--color-olive) 0 7px, var(--color-parchment) 7px 14px);
+}
+@utility stripes-olive-fine {
+  background-image: repeating-linear-gradient(90deg, var(--color-olive) 0 3px, var(--color-parchment) 3px 7px);
+}
+
+/* ── Typography ──────────────────────────────────────────────────────────── */
+@utility smallcaps {
+  font-family: var(--font-serif);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.22em;
+  font-weight: 500;
+}
+@utility eyebrow {
+  font-family: var(--font-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 0.9;
+}
+@utility script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+/* ── Deckled / torn paper edge ───────────────────────────────────────────── */
+@utility deckle {
+  mask-image: url("/textures/deckle.svg");
+  mask-size: 100% 100%;
+  -webkit-mask-image: url("/textures/deckle.svg");
+  -webkit-mask-size: 100% 100%;
+}
+
+/* Text placeholder for unconfirmed details */
+.tba {
+  font-style: italic;
+  color: color-mix(in srgb, currentColor 70%, transparent);
+}
+
+/* Scroll indicator */
+@keyframes drift-down {
+  0% { transform: translateY(-6px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(14px); opacity: 0; }
+}
+@keyframes float-petal {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(6px, -10px, 0) rotate(8deg); }
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(-1.2deg); }
+  50% { transform: rotate(1.2deg); }
+}
+
+/* Envelope already opened this session → never flash it */
+html[data-opened="1"] #envelope-intro { display: none; }

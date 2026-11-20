@@ -1,0 +1,184 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   Admin portal — stationery-flavoured, legibility first.
+   Hairline rules, 2px radii, olive & espresso ink on ivory/parchment.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.adm {
+  --rule: color-mix(in srgb, var(--color-gold) 55%, transparent);
+  --hair: color-mix(in srgb, var(--color-espresso) 16%, transparent);
+  --muted: color-mix(in srgb, var(--color-ink) 72%, var(--color-ivory));
+  min-height: 100dvh;
+  color: var(--color-ink);
+  font-size: 1.125rem;
+  line-height: 1.55;
+}
+
+.adm h1, .adm h2, .adm h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--color-olive-deep);
+  letter-spacing: -0.005em;
+  line-height: 1.15;
+}
+.adm h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); }
+.adm h2 { font-size: 1.45rem; }
+.adm h3 { font-size: 1.15rem; }
+
+.adm a:not(.btn) { color: var(--color-olive); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.adm a:not(.btn):hover { color: var(--color-raspberry); }
+
+.adm-label {
+  font-family: var(--font-serif);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--color-espresso-soft);
+}
+.adm-muted { color: var(--muted); }
+.adm-rule { border: 0; height: 1px; background: var(--rule); margin: 0; }
+.adm-rule-double { border: 0; height: 4px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin: 0; }
+
+/* ── Panels ─────────────────────────────────────────────────────────────── */
+.adm-panel {
+  background: color-mix(in srgb, var(--color-ivory) 70%, white);
+  border: 1px solid var(--hair);
+  border-radius: 2px;
+  padding: 1.25rem;
+}
+@media (min-width: 768px) { .adm-panel { padding: 1.5rem 1.75rem; } }
+.adm-panel-parchment { background: var(--color-parchment); }
+
+/* ── Buttons ────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.5rem 1.1rem;
+  border-radius: 2px;
+  border: 1px solid var(--color-olive-deep);
+  background: var(--color-olive-deep);
+  color: var(--color-ivory);
+  font-family: var(--font-serif);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 150ms, color 150ms, border-color 150ms;
+}
+.btn:hover { background: var(--color-olive-ink); }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: 0.55; cursor: progress; }
+.btn-ghost { background: transparent; color: var(--color-olive-deep); border-color: color-mix(in srgb, var(--color-olive-deep) 55%, transparent); }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-olive) 8%, transparent); color: var(--color-olive-deep); }
+.btn-danger { background: transparent; color: var(--color-raspberry); border-color: color-mix(in srgb, var(--color-raspberry) 55%, transparent); }
+.btn-danger:hover { background: color-mix(in srgb, var(--color-raspberry) 8%, transparent); }
+.btn-sm { min-height: 44px; padding: 0.35rem 0.8rem; font-size: 1rem; }
+
+/* ── Form controls ──────────────────────────────────────────────────────── */
+.adm-input, .adm-select, .adm-textarea {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--color-espresso) 28%, transparent);
+  border-radius: 2px;
+  background: #fffdf8;
+  color: var(--color-espresso);
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+.adm-textarea { min-height: 6rem; resize: vertical; }
+.adm-input:focus, .adm-select:focus, .adm-textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--color-olive) 70%, transparent);
+  outline-offset: 0;
+  border-color: var(--color-olive);
+}
+.adm-input[aria-invalid="true"], .adm-textarea[aria-invalid="true"] { border-color: var(--color-raspberry); }
+.adm-select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-olive) 50%), linear-gradient(135deg, var(--color-olive) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 2.25rem;
+}
+.adm-check { display: flex; align-items: center; gap: 0.75rem; min-height: 44px; cursor: pointer; }
+.adm-check input { width: 1.25rem; height: 1.25rem; accent-color: var(--color-olive); flex: none; }
+.adm-help { font-size: 1rem; color: var(--muted); font-style: italic; }
+.adm-error { color: var(--color-raspberry); font-size: 1rem; }
+
+/* Segmented yes / no choice */
+.adm-seg { display: inline-flex; border: 1px solid color-mix(in srgb, var(--color-espresso) 28%, transparent); border-radius: 2px; overflow: hidden; }
+.adm-seg label { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; cursor: pointer; font-variant-caps: all-small-caps; letter-spacing: 0.12em; font-weight: 600; }
+.adm-seg label + label { border-left: 1px solid color-mix(in srgb, var(--color-espresso) 28%, transparent); }
+.adm-seg input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.adm-seg label:has(input:checked) { background: var(--color-olive-deep); color: var(--color-ivory); }
+.adm-seg label:has(input:focus-visible) { outline: 2px solid var(--color-roses); outline-offset: -3px; }
+
+/* ── Status marks ───────────────────────────────────────────────────────── */
+.adm-status {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-variant-caps: all-small-caps; letter-spacing: 0.12em; font-weight: 600; font-size: 1rem; white-space: nowrap;
+}
+.adm-status::before { content: ""; width: 0.55rem; height: 0.55rem; border-radius: 999px; border: 1px solid currentColor; }
+.adm-status[data-s="attending"] { color: var(--color-olive); }
+.adm-status[data-s="attending"]::before { background: currentColor; }
+.adm-status[data-s="declined"] { color: var(--color-raspberry); }
+.adm-status[data-s="partial"] { color: var(--color-gold-deep); }
+.adm-status[data-s="partial"]::before { background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
+.adm-status[data-s="awaiting"] { color: var(--muted); }
+
+.adm-tag {
+  display: inline-block; padding: 0 0.45rem; border: 1px solid var(--rule); border-radius: 2px;
+  font-variant-caps: all-small-caps; letter-spacing: 0.1em; font-size: 0.95rem; color: var(--color-gold-deep); white-space: nowrap;
+}
+.adm-code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.95rem; letter-spacing: 0.04em; color: var(--color-espresso); }
+
+/* ── Tables that collapse to stacked rows on phones ─────────────────────── */
+.adm-table { width: 100%; border-collapse: collapse; }
+.adm-table th {
+  text-align: left; font-weight: 600; font-variant-caps: all-small-caps; letter-spacing: 0.14em; font-size: 1rem;
+  color: var(--color-espresso-soft); padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--rule);
+}
+.adm-table td { padding: 0.85rem 0.75rem; border-bottom: 1px solid var(--hair); vertical-align: top; }
+.adm-table tbody tr:hover { background: color-mix(in srgb, var(--color-parchment) 55%, transparent); }
+@media (max-width: 767px) {
+  .adm-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .adm-table, .adm-table tbody, .adm-table tr, .adm-table td { display: block; width: 100%; }
+  .adm-table tr { padding: 0.9rem 0; border-bottom: 1px solid var(--rule); }
+  .adm-table td { border: 0; padding: 0.2rem 0; }
+  .adm-table td[data-label]::before {
+    content: attr(data-label); display: block;
+    font-variant-caps: all-small-caps; letter-spacing: 0.14em; font-weight: 600; font-size: 0.95rem; color: var(--muted);
+  }
+  .adm-table td.adm-td-inline[data-label]::before { display: inline; margin-right: 0.5rem; }
+}
+
+/* Long values (links, emails, messages) must never push the page sideways */
+.adm-break { overflow-wrap: anywhere; word-break: break-word; }
+
+/* Flash */
+.adm-flash { border: 1px solid var(--rule); border-left: 3px solid var(--color-olive); background: var(--color-parchment); padding: 0.75rem 1rem; border-radius: 2px; }
+.adm-flash-error { border-left-color: var(--color-raspberry); }
+
+/* Nav */
+.adm-nav a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.15rem;
+  font-variant-caps: all-small-caps; letter-spacing: 0.16em; font-weight: 600; font-size: 1.1rem;
+  color: var(--color-espresso-soft) !important; text-decoration: none; border-bottom: 1px solid transparent;
+}
+@media (max-width: 400px) { .adm-nav a { letter-spacing: 0.1em; font-size: 1.05rem; } }
+.adm-nav a[aria-current="page"] { color: var(--color-olive-deep) !important; border-bottom-color: var(--color-gold); }
+.adm-nav a:hover { color: var(--color-raspberry) !important; }
+
+/* Stat figures */
+.adm-figure { font-family: var(--font-display); font-size: clamp(2rem, 7vw, 2.75rem); line-height: 1; color: var(--color-olive-deep); font-variant-numeric: lining-nums tabular-nums; }
+.adm-bar { height: 6px; background: color-mix(in srgb, var(--color-gold) 22%, transparent); border-radius: 1px; overflow: hidden; }
+.adm-bar > span { display: block; height: 100%; background: var(--color-olive); }
