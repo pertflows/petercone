@@ -17,6 +17,8 @@ interface Props {
   allowNameLookup: boolean;
   deadlineLabel: string | null;
   open: boolean;
+  /** false until guest storage (Supabase) is connected. */
+  enabled: boolean;
   houseName: string;
   couple: string;
 }
@@ -50,7 +52,7 @@ function Choice({ checked, onSelect, label, name, value }: { checked: boolean; o
   );
 }
 
-export function Rsvp({ initial, meals, askSongs, allowNameLookup, deadlineLabel, open, houseName, couple }: Props) {
+export function Rsvp({ initial, meals, askSongs, allowNameLookup, deadlineLabel, open, enabled, houseName, couple }: Props) {
   const reduce = useReducedMotion();
   const uid = useId();
   const [stage, setStage] = useState<Stage>(initial ? (initial.reply ? "sent" : "card") : "find");
@@ -179,7 +181,19 @@ export function Rsvp({ initial, meals, askSongs, allowNameLookup, deadlineLabel,
                       </p>
                     )}
 
-                    {stage === "find" && (
+                    {stage === "find" && !enabled && (
+                      <div className="mt-6 text-center" role="status">
+                        <h3 className="font-display text-[1.7rem] italic text-espresso">Replies open soon</h3>
+                        <p className="mx-auto mt-3 max-w-sm text-lg leading-relaxed text-espresso-soft">
+                          Your personal reply card will arrive with your invitation. Until then, save the date — we can’t wait to celebrate with you.
+                        </p>
+                        <a href="/calendar.ics" className="mt-8 inline-flex min-h-12 items-center bg-olive px-8 font-display text-lg italic text-parchment transition-colors hover:bg-olive-deep">
+                          Add to calendar
+                        </a>
+                      </div>
+                    )}
+
+                    {stage === "find" && enabled && (
                       <form onSubmit={find} className="mt-6" noValidate>
                         <h3 className="text-center font-display text-[1.7rem] italic text-espresso">Find your invitation</h3>
                         <p className="mx-auto mt-2 max-w-sm text-center text-base text-espresso-soft">

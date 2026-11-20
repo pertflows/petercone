@@ -5,6 +5,7 @@ import type { PublicInvitation } from "@/lib/invitation";
 import { joinNames } from "@/lib/invitation";
 import { formatDeadline } from "@/lib/format";
 import { rsvpOpen } from "@/lib/settings";
+import { storageAvailable } from "@/lib/db";
 import { INTRO_BOOT_SCRIPT } from "@/lib/intro";
 import { EnvelopeIntro } from "./EnvelopeIntro";
 import { FloatingNav } from "./FloatingNav";
@@ -40,6 +41,7 @@ export async function Site({ s, invitation }: { s: WeddingSettings; invitation: 
           allowNameLookup={s.rsvp.allowNameLookup}
           deadlineLabel={formatDeadline(s.rsvp.deadline)}
           open={rsvpOpen(s)}
+          enabled={storageAvailable}
           houseName={s.couple.futureHouseName}
           couple={s.couple.primary}
         />

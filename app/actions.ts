@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { z } from "zod";
-import { repo } from "@/lib/db";
+import { repo, storageAvailable } from "@/lib/db";
 import { getSettings, rsvpOpen } from "@/lib/settings";
 import { formatDeadline } from "@/lib/format";
 import { toPublicInvitation, type PublicInvitation } from "@/lib/invitation";
@@ -31,6 +31,7 @@ const lookupSchema = z.union([
 ]);
 
 export async function lookupInvitation(input: unknown): Promise<LookupResult> {
+  if (!storageAvailable) return { ok: false, error: "Replies open soon — your reply card will arrive with your invitation." };
   if (await limited("lookup", 25, 10 * 60_000)) return { ok: false, error: "Too many attempts — please wait a few minutes and try again." };
   const parsed = lookupSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Please fill in the details on your card." };
@@ -77,6 +78,7 @@ const submitSchema = z.object({
 export type SubmitResult = { ok: true; invitation: PublicInvitation } | { ok: false; error: string };
 
 export async function submitRsvp(input: unknown): Promise<SubmitResult> {
+  if (!storageAvailable) return { ok: false, error: "Replies open soon — your reply card will arrive with your invitation." };
   if (await limited("submit", 20, 10 * 60_000)) return { ok: false, error: "Too many attempts — please wait a few minutes and try again." };
   const parsed = submitSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Something on the card isn’t quite right — please check each guest has a reply." };

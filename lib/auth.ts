@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { createServerClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
-import { supabaseConfigured } from "./db";
+import { storageAvailable, supabaseConfigured } from "./db";
 
 /**
  * Admin authentication.
@@ -86,6 +86,7 @@ export async function requireAdmin(): Promise<AdminSession> {
 }
 
 export async function signInAdmin(email: string, password: string): Promise<{ ok: true } | { ok: false; error: string }> {
+  if (!storageAvailable) return { ok: false, error: "The guest list isn’t connected yet — set up Supabase to open the Guest Book (see README)." };
   if (supabaseConfigured) {
     const sb = await supabaseAuthClient();
     const { data, error } = await sb.auth.signInWithPassword({ email, password });
